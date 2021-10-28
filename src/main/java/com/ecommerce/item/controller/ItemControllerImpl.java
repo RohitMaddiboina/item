@@ -3,6 +3,7 @@ package com.ecommerce.item.controller;
 
 
 import com.ecommerce.item.model.Item;
+import com.ecommerce.item.model.ListOfItemsList;
 import com.ecommerce.item.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,23 +22,23 @@ public class ItemControllerImpl implements ItemController {
     }
 
     @Override
-    public List<Item> getAllItems(@PathVariable("category") String category){
+    public ListOfItemsList getAllItems(@PathVariable("category") String category){
         return itemService.getAllItems(category);
     }
     
     @Override
-    public List<Item> getItemsKeyword(@PathVariable("keyword") String keyword){
+    public ListOfItemsList getItemsKeyword(@PathVariable("keyword") String keyword){
         return itemService.getItemsKeyWord(keyword);
     }
     
     @Override
-    public List<Item> getAllItemWithItemType(@PathVariable("category") String category,@RequestBody List<String> itemTypes){
-
+    public ListOfItemsList getAllItemWithItemType(@PathVariable("category") String category,@RequestBody List<String> itemTypes){
+    			
                 return itemService.getCategoryItemsWithItemType(category, itemTypes);
     }
     
     @Override
-    public List<Item> getAllItemWithItemTypeAndPrice(@PathVariable("category") String category,@RequestBody List<String> itemTypes,
+    public ListOfItemsList getAllItemWithItemTypeAndPrice(@PathVariable("category") String category,@RequestBody List<String> itemTypes,
                                                      @PathVariable("low") float low,@PathVariable("high") float high){
 
         return itemService.getCategoryItemsWithItemTypePrice(category, itemTypes, low, high);

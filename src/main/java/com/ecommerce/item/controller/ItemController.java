@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 import com.ecommerce.item.model.Item;
+import com.ecommerce.item.model.ListOfItemsList;
 
 public interface ItemController {
 
@@ -14,16 +15,16 @@ public interface ItemController {
 	Item getItem(int itemId);
 
 	@GetMapping("/getItems/{category}")
-	List<Item> getAllItems(String category);
+	ListOfItemsList getAllItems(String category);
 
 	@GetMapping("/getItemsKeyword/{keyword}")
-	List<Item> getItemsKeyword(String keyword);
-
+	ListOfItemsList getItemsKeyword(String keyword);
+//
 	@PostMapping("/getItems/{category}")
-	List<Item> getAllItemWithItemType(String category, List<String> itemTypes);
+	ListOfItemsList getAllItemWithItemType(String category, List<String> itemTypes);
 
 	@PostMapping("/getItems/{category}/{low}/{high}")
-	List<Item> getAllItemWithItemTypeAndPrice(String category, List<String> itemTypes, float low, float high);
+	ListOfItemsList getAllItemWithItemTypeAndPrice(String category, List<String> itemTypes, float low, float high);
 
 	@GetMapping("/getItemType/{navItem}/{category}")
 	List<String> hello(String navItem, String category);
