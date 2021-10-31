@@ -19,7 +19,7 @@ public interface ItemController {
 
 	@GetMapping("/getItemsKeyword/{keyword}")
 	ListOfItemsList getItemsKeyword(String keyword);
-//
+
 	@PostMapping("/getItems/{category}")
 	ListOfItemsList getAllItemWithItemType(String category, List<String> itemTypes);
 
