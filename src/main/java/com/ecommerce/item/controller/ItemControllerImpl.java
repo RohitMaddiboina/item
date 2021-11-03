@@ -57,5 +57,15 @@ public class ItemControllerImpl implements ItemController {
         return itemServiceImpl.getDistinctItemType(category);
     }
 
+    @Override
+	public Item addQuantityToItems(@PathVariable int itemId,@PathVariable int quantity) {
+		return itemServiceImpl.addQuantityToItems(itemId,quantity);
+	}
+
+	@Override
+	public Item removeQuantityFromItem(@PathVariable int itemId,@PathVariable int quantity) {
+		return itemServiceImpl.removeQuantityFromItem(itemId,quantity);
+	}
+
 
 }

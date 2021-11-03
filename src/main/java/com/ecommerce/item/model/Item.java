@@ -2,6 +2,7 @@ package com.ecommerce.item.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -19,6 +20,7 @@ public class Item {
     private String itemType;
     private String brand;
     private String model;
+    @Setter
     private int quanitity;
     private float rating;
     private boolean active;

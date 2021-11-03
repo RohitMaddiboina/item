@@ -56,4 +56,8 @@ public class ItemDaoImpl implements ItemDao {
 	public List<Item> getItemsKeyword(String keyword){
         return itemRepo.getItemsWithKeyword(keyword);
     }
+	@Override
+	public Item updateItem(Item item) {
+		return itemRepo.save(item);
+	}
 }

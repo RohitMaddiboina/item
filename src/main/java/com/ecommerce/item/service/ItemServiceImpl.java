@@ -156,4 +156,18 @@ public class ItemServiceImpl implements ItemService {
     	listOfItemsList1.setList(listOfItemsList0);
         return listOfItemsList1;
     }
+
+	@Override
+	public Item addQuantityToItems(int itemId, int quantity) {
+		Item item=itemDaoImpl.getItem(itemId);
+		item.setQuanitity(item.getQuanitity()+quantity);
+		return itemDaoImpl.updateItem(item);
+	}
+
+	@Override
+	public Item removeQuantityFromItem(int itemId, int quantity) {
+		Item item=itemDaoImpl.getItem(itemId);
+		item.setQuanitity(item.getQuanitity()-quantity);
+		return itemDaoImpl.updateItem(item);
+	}
 }

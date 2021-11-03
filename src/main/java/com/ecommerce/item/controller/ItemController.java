@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.ecommerce.item.model.Item;
 import com.ecommerce.item.model.ListOfItemsList;
@@ -28,5 +28,11 @@ public interface ItemController {
 
 	@GetMapping("/getItemType/{navItem}/{category}")
 	List<String> hello(String navItem, String category);
+
+	@PutMapping("/addQuantity/{itemId}/{quantity}")
+	Item addQuantityToItems(int itemId, int quantity);
+	
+	@PutMapping("/removeQuantity/{itemId}/{quantity}")
+	Item removeQuantityFromItem(int itemId, int quantity);
 
 }

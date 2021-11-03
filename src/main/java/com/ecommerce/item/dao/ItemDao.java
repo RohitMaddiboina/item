@@ -23,4 +23,6 @@ public interface ItemDao {
 
 	List<Item> getItemsKeyword(String keyword);
 
+	Item updateItem(Item item);
+
 }

@@ -27,4 +27,8 @@ public interface ItemService {
 	//Gets List Of items list based on the keyword given by users
 	ListOfItemsList getItemsKeyWord(String keyword);
 
+	Item addQuantityToItems(int itemId, int quantity);
+
+	Item removeQuantityFromItem(int itemId, int quantity);
+
 }

@@ -9,6 +9,7 @@ spring:
     url: jdbc:mysql://localhost:3306/fassciodb
     driver-class-name: com.mysql.jdbc.Driver
     username: root
+#    password:
     password: ENC(6T8Jg2gtPJ6QHL0Axx5eIbDm/ZllZNryUg0SMu16TMgyIUMnwDuGdj9MPQSyytW0)
   jpa:
     hibernate:

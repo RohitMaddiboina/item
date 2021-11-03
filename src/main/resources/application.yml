@@ -1,12 +1,7 @@
 spring:
-  application:
-    name: item
   profiles:
-<<<<<<< HEAD
     active: dev
-=======
-    active: test
->>>>>>> f6277d2698422c174d5592323277c08046b3a999
-  devtools:
-    add-properties: false
+    application:
+      name: ItemServices
+
 
