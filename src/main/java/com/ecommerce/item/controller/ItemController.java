@@ -2,6 +2,7 @@ package com.ecommerce.item.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.ecommerce.item.model.Item;
 import com.ecommerce.item.model.ListOfItemsList;
 
+@CrossOrigin
 public interface ItemController {
 
 	@GetMapping("/getItem/{itemId}")

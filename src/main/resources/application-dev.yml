@@ -4,7 +4,7 @@ server:
   # Database configuration
 spring:
   application:
-    name: "item"
+      name: item-service
   datasource:
     url: jdbc:mysql://localhost:3306/fassciodb
     driver-class-name: com.mysql.jdbc.Driver

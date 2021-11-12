@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class ItemControllerImpl implements ItemController {
     @Autowired
     ItemService itemServiceImpl;
