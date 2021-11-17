@@ -9,8 +9,8 @@ spring:
     url: jdbc:mysql://localhost:3306/fassciodb
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password:
-#    password: ENC(6T8Jg2gtPJ6QHL0Axx5eIbDm/ZllZNryUg0SMu16TMgyIUMnwDuGdj9MPQSyytW0)
+#    password:
+    password: ENC(6T8Jg2gtPJ6QHL0Axx5eIbDm/ZllZNryUg0SMu16TMgyIUMnwDuGdj9MPQSyytW0)
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,3 +18,5 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+string:
+  exceptionValue: Required request body is missing

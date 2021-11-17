@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.ecommerce.item.model.Item;
 import com.ecommerce.item.model.ListOfItemsList;
 
-@CrossOrigin
+//@CrossOrigin
 public interface ItemController {
 
 	@GetMapping("/getItem/{itemId}")
