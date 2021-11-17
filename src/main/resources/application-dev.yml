@@ -18,3 +18,5 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+string:
+  exceptionValue: Required request body is missing

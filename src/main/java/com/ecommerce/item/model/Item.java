@@ -27,4 +27,7 @@ public class Item {
     private String discription;
     private float price;
     private String itemImage;
+    @Setter 
+    @Column(length = 16777215, columnDefinition = "LONGBLOB" ) 
+    private byte[] primaryImage;
 }
