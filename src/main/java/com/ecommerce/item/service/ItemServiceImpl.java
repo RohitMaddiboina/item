@@ -5,6 +5,9 @@ import com.ecommerce.item.model.Item;
 import com.ecommerce.item.model.ListOfItemsList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,161 +16,81 @@ import java.util.List;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    @Autowired
-    ItemDao itemDaoImpl;
-    private static final int ITEM_CAPACITY = 10;
-    @Override
-	public Item getItem(int itemID){
-        return itemDaoImpl.getItem(itemID);
-    }
+	@Autowired
+	ItemDao itemDaoImpl;
+	private static final int ITEM_CAPACITY = 10;
 
-    //This gets the list of list of items when user submits the category
-    @Override
-	public ListOfItemsList getAllItems(String category){
-		
-    	List<Item> itemsList = itemDaoImpl.getAllItems(category,null);
-    	ListOfItemsList listOfItemsList1 = new ListOfItemsList();
-    	int noPages = itemsList.size()/ITEM_CAPACITY;
-    	int remPage = itemsList.size()%ITEM_CAPACITY;
-    	List<List<Item>> listOfItemsList0 = new ArrayList<>();
-    	for(int i=0;i<noPages;i++)
-    	{
-    		listOfItemsList0.add( itemsList.subList(ITEM_CAPACITY*i, ITEM_CAPACITY*i+ITEM_CAPACITY));
-    	}
-    	if(remPage>0)
-    	{
-    		listOfItemsList0.add(itemsList.subList(itemsList.size()-remPage, itemsList.size()));
-    	}
+	@Override
+	public Item getItem(int itemID) {
+		return itemDaoImpl.getItem(itemID);
+	}
 
-    	listOfItemsList1.setList(listOfItemsList0);
-    	return listOfItemsList1;
-    }
+	// This gets the list of list of items when user submits the category
+	@Override
+	public Page<Item> getAllItems(String category,int index) {
 
-    //This gets the list of list of items when user wants particular item type from category
-    @Override
-	public ListOfItemsList getCategoryItemsWithItemType(String category,List<String> itemTypes){
-        List<List<Item>> listOfItemsList0 = new ArrayList<>();
-    	ListOfItemsList listOfItemsList1 = new ListOfItemsList();
-        if (!itemTypes.isEmpty()){
+		return itemDaoImpl.getAllItems(category, PageRequest.of(index, ITEM_CAPACITY,Sort.by("price")));
+	}
 
-            for(String itemType : itemTypes){
-               
-                List<Item> itemsList =  itemDaoImpl.getCategoryItemsWithItemType(category,itemType,null);
+	// This gets the list of list of items when user wants particular item type from
+	// category
+	@Override
+	public Page<Item> getCategoryItemsWithItemType(String category, List<String> itemTypes
+			,int index) {
+		if (itemTypes.isEmpty()) {
+			return getAllItems(category,index);
+		}
+		return itemDaoImpl.getCategoryItemsWithItemType(category, itemTypes, PageRequest.of(index, ITEM_CAPACITY,Sort.by("price")));
+	}
 
-            	int noPages = itemsList.size()/ITEM_CAPACITY;
-            	int remPage = itemsList.size()%ITEM_CAPACITY;
-            	for(int i=0;i<noPages;i++)
-            	{	
-            		listOfItemsList0.add( itemsList.subList(ITEM_CAPACITY*i, ITEM_CAPACITY*i+ITEM_CAPACITY));
-            	}
-            	if(remPage>0)
-            	{
-            		listOfItemsList0.add(itemsList.subList(itemsList.size()-remPage, itemsList.size()));
-            		
-            	}
-            	
-            }
-            listOfItemsList1.setList(listOfItemsList0);
-            return listOfItemsList1;
-        }
-           
-        else{
-            return getAllItems(category);
-        }
-    }
-    
-    //This gets a list of list of items of a category based on price range set by user
-    @Override
-	public ListOfItemsList getCategoryItemsWithPrice(String category, float low,float high) {
-    	List<Item> itemsList = itemDaoImpl.getCategoryItemsWithPrice(category,low,high,null);
-    	ListOfItemsList listOfItemsList1 = new ListOfItemsList();
-    	
-    	int noPages = itemsList.size()/ITEM_CAPACITY;
-    	int remPage = itemsList.size()%ITEM_CAPACITY;
-    	List<List<Item>> listOfItemsList0 = new ArrayList<>();
-    	for(int i=0;i<noPages;i++)
-    	{	
-    		listOfItemsList0.add( itemsList.subList(ITEM_CAPACITY*i, ITEM_CAPACITY*i+ITEM_CAPACITY));
-    	}
-    	if(remPage>0)
-    	{
-    		listOfItemsList0.add(itemsList.subList(itemsList.size()-remPage, itemsList.size()));
-    		
-    	}
-    	listOfItemsList1.setList(listOfItemsList0);
-        return listOfItemsList1;
-    }
+	// This gets a list of list of items of a category based on price range set by
+	// user
+	@Override
+	public Page<Item> getCategoryItemsWithPrice(String category, float low, float high
+			,int index) {
+		return itemDaoImpl.getCategoryItemsWithPrice(category, low, high, PageRequest.of(index, ITEM_CAPACITY,Sort.by("price")));
 
-    //This gets the List of List of items from a category of a itemType within the price range
-    @Override
-	public ListOfItemsList getCategoryItemsWithItemTypePrice( String category, List<String> itemTypes,  float low,float high){
-        List<List<Item>> listOfItemsList0 = new ArrayList<>();
-    	ListOfItemsList listOfItemsList1 = new ListOfItemsList();
-        if (!itemTypes.isEmpty()){
-        	
-            for(String itemType : itemTypes){
-            	 List<Item> itemsList =  itemDaoImpl.getCategoryItemsWithItemTypePrice(category,itemType,low,high,null);
-                 
-            	 int noPages = itemsList.size()/ITEM_CAPACITY;
-             	int remPage = itemsList.size()%ITEM_CAPACITY;
-             	for(int i=0;i<noPages;i++)
-             	{	
-             		listOfItemsList0.add( itemsList.subList(ITEM_CAPACITY*i, ITEM_CAPACITY*i+ITEM_CAPACITY));
-             	}
-             	if(remPage>0)
-             	{
-             		listOfItemsList0.add(itemsList.subList(itemsList.size()-remPage, itemsList.size()));
-             		
-             	}
-          
-            }
-            listOfItemsList1.setList(listOfItemsList0);
-            return listOfItemsList1;
-        }else{
-            return this.getCategoryItemsWithPrice(category,low,high);
-        }
-    }
+	}
 
-    //Gets all the itemsTypes present in the category
-    @Override
-	public List<String> getDistinctItemType(String category){
-        return  itemDaoImpl.getDistinctItemTypes(category);
-    }
+	// This gets the List of List of items from a category of a itemType within the
+	// price range
+	@Override
+	public Page<Item> getCategoryItemsWithItemTypePrice(String category, List<String> itemTypes, float low,
+			float high,int index) {
 
-    //Gets List Of items list based on the keyword given by users
-    @Override
-	public ListOfItemsList getItemsKeyWord(String keyword){
-    	String keywordModified = "%"+keyword.replace(' ', '%')+"%";
-    	List<Item> itemsList = itemDaoImpl.getItemsKeyword(keywordModified);
-    	ListOfItemsList listOfItemsList1 = new ListOfItemsList();
-    	
-    	int noPages = itemsList.size()/ITEM_CAPACITY;
-    	int remPage = itemsList.size()%ITEM_CAPACITY;
-    	List<List<Item>> listOfItemsList0 = new ArrayList<>();
-    	for(int i=0;i<noPages;i++)
-    	{	
-    		listOfItemsList0.add( itemsList.subList(ITEM_CAPACITY*i, ITEM_CAPACITY*i+ITEM_CAPACITY));
-    	}
-    	if(remPage>0)
-    	{
-    		listOfItemsList0.add(itemsList.subList(itemsList.size()-remPage, itemsList.size()));
-    		
-    	}
-    	listOfItemsList1.setList(listOfItemsList0);
-        return listOfItemsList1;
-    }
+		if (itemTypes.isEmpty()) {
+			return getCategoryItemsWithPrice(category, low, high,index);
+		}
+
+		return itemDaoImpl.getCategoryItemsWithItemTypePrice(category, itemTypes, low, high, PageRequest.of(index, ITEM_CAPACITY,Sort.by("price")));
+
+	}
+
+	// Gets all the itemsTypes present in the category
+	@Override
+	public List<String> getDistinctItemType(String category) {
+		return itemDaoImpl.getDistinctItemTypes(category);
+	}
+
+	// Gets List Of items list based on the keyword given by users
+	@Override
+	public Page<Item> getItemsKeyWord(String keyword,int index) {
+		String keywordModified = "%" + keyword.replace(' ', '%') + "%";
+		return itemDaoImpl.getItemsKeyword(keywordModified,PageRequest.of(index, ITEM_CAPACITY,Sort.by("price")));
+	
+	}
 
 	@Override
 	public Item addQuantityToItems(int itemId, int quantity) {
-		Item item=itemDaoImpl.getItem(itemId);
-		item.setQuanitity(item.getQuanitity()+quantity);
+		Item item = itemDaoImpl.getItem(itemId);
+		item.setQuanitity(item.getQuanitity() + quantity);
 		return itemDaoImpl.updateItem(item);
 	}
 
 	@Override
 	public Item removeQuantityFromItem(int itemId, int quantity) {
-		Item item=itemDaoImpl.getItem(itemId);
-		item.setQuanitity(item.getQuanitity()-quantity);
+		Item item = itemDaoImpl.getItem(itemId);
+		item.setQuanitity(item.getQuanitity() - quantity);
 		return itemDaoImpl.updateItem(item);
 	}
 }

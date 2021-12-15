@@ -3,7 +3,10 @@ package com.ecommerce.item.dao;
 
 import com.ecommerce.item.model.Item;
 import com.ecommerce.item.repo.ItemRepo;
+import com.ecommerce.item.repo.ItemWithPagingRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,48 +17,54 @@ import java.util.List;
 @Service
 public class ItemDaoImpl implements ItemDao {
 
-    @Autowired
-    ItemRepo itemRepo;
+	@Autowired
+	ItemWithPagingRepo itemWithPagingRepo;
+	
+	@Autowired
+	ItemRepo itemRepo;
 
 
 
-    @Override
+
+	@Override
 	public Item getItem(int itemID){
-        return itemRepo.findById(itemID).get();
+        return itemWithPagingRepo.findById(itemID).get();
     }
-    @Override
-	public List<Item> getAllItems(String category,Pageable pageable){
-    	List<Item> items = itemRepo.getCategoryItems(category, pageable);
-    	if(!items.isEmpty()) {
-    		
-    		return items;
-    	}
-    	return new ArrayList<>();
+  
+	@Override
+	public Page<Item> getAllItems(String category,Pageable pageable){
+    	return itemWithPagingRepo.findByCategory(category, pageable);
+    	
     }
    
-    @Override
-	public List<Item> getCategoryItemsWithItemType(String category,String itemType,Pageable pageable){
-        return itemRepo.getCategoryItemsWithItemType(category,itemType,pageable);
+ 	@Override
+	public Page<Item> getCategoryItemsWithItemType(String category,List<String> itemType,Pageable pageable){
+        return itemWithPagingRepo.findByCategoryAndItemTypeIn(category,itemType,pageable);
     }
    
 
-    @Override
-	public List<Item> getCategoryItemsWithItemTypePrice(String category,String itemType,float low,float high,Pageable pageable){
-        return itemRepo.getCategoryItemsWithItemTypePrice(category,itemType,low,high,pageable);
+    
+	@Override
+	public Page<Item> getCategoryItemsWithItemTypePrice(String category,List<String> itemType,float low,float high,Pageable pageable){
+        return itemWithPagingRepo.findByCategoryAndItemTypeInAndPriceBetween(category,itemType,low,high,pageable);
     }
-    @Override
-	public List<Item> getCategoryItemsWithPrice(String category,float low,float high,Pageable pageable){
-        return itemRepo.getCategoryItemsWithPrice(category,low,high,pageable);
+   
+	@Override
+	public Page<Item> getCategoryItemsWithPrice(String category,float low,float high,Pageable pageable){
+        return itemWithPagingRepo.findByCategoryAndPriceBetween(category,low,high,pageable);
     }
-    @Override
+   
+	@Override
 	public List<String> getDistinctItemTypes(String category){
         return  itemRepo.getDistinctItemTypes(category);
     }
 
-    @Override
-	public List<Item> getItemsKeyword(String keyword){
-        return itemRepo.getItemsWithKeyword(keyword);
+   
+	@Override
+	public Page<Item> getItemsKeyword(String keyword,Pageable pageable){
+        return itemWithPagingRepo.getItemsWithKeyword(keyword,pageable);
     }
+	
 	@Override
 	public Item updateItem(Item item) {
 		return itemRepo.save(item);
