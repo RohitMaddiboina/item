@@ -39,9 +39,9 @@ public interface ItemController {
 			@PathVariable("index")int index);
 
 	@PutMapping("/addQuantity/{itemId}/{quantity}")
-	Item addQuantityToItems(int itemId, int quantity);
+	Item addQuantityToItems(@PathVariable("itemId") int itemId,@PathVariable("quantity") int quantity);
 
 	@PutMapping("/removeQuantity/{itemId}/{quantity}")
-	Item removeQuantityFromItem(int itemId, int quantity);
+	Item removeQuantityFromItem(@PathVariable("itemId") int itemId,@PathVariable("quantity") int quantity);
 
 }
